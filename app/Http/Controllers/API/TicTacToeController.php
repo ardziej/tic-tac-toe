@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\API\TicTacToeStoreRequest;
 use Illuminate\Http\JsonResponse;
 
 class TicTacToeController extends BaseAPIController
@@ -39,7 +40,7 @@ class TicTacToeController extends BaseAPIController
         );
     }
 
-    public function store(): JsonResponse
+    public function store(TicTacToeStoreRequest $request): JsonResponse
     {
         return response()->json(
             [
