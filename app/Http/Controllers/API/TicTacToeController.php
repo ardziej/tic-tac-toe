@@ -4,102 +4,39 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
+use App\DTO\TicTacToeDTO;
 use App\Http\Requests\API\TicTacToeStoreRequest;
 use Illuminate\Http\JsonResponse;
 
 class TicTacToeController extends BaseAPIController
 {
+    public function __construct(
+        public TicTacToeDTO $ticTacToeDTO,
+    ) {
+    }
+
     public function index(): JsonResponse
     {
-        return response()->json(
-            [
-                'board'       => [
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                ],
-                'score'       => [
-                    'x' => 1,
-                    '0' => 1,
-                ],
-                'currentTurn' => 'o',
-                'victory'     => 'x',
-            ]
-        );
+        $ticTacToeDTO = $this->ticTacToeDTO;
+        $ticTacToeDTO->init([], [], 'x', 'o');
+
+        return response()->json($ticTacToeDTO->toArray());
     }
 
     public function store(TicTacToeStoreRequest $request): JsonResponse
     {
-        return response()->json(
-            [
-                'board'       => [
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                ],
-                'score'       => [
-                    'x' => 1,
-                    '0' => 1,
-                ],
-                'currentTurn' => 'o',
-                'victory'     => 'x',
-            ]
-        );
+        $ticTacToeDTO = $this->ticTacToeDTO;
+        $ticTacToeDTO->init([], [], 'x', 'o');
+
+        return response()->json($ticTacToeDTO->toArray());
     }
 
     public function update(): JsonResponse
     {
-        return response()->json(
-            [
-                'board'       => [
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                    [
-                        "",
-                        "",
-                        "",
-                    ],
-                ],
-                'score'       => [
-                    'x' => 1,
-                    '0' => 1,
-                ],
-                'currentTurn' => 'o',
-                'victory'     => 'x',
-            ]
-        );
+        $ticTacToeDTO = $this->ticTacToeDTO;
+        $ticTacToeDTO->init([], [], 'x', 'o');
+
+        return response()->json($ticTacToeDTO->toArray());
     }
 
     public function destroy(): JsonResponse
