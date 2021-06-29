@@ -43,9 +43,13 @@ class TicTacToeController extends BaseAPIController
 
     public function destroy(): JsonResponse
     {
+        $ticTacToeService = $this->ticTacToeService;
+        $ticTacToeService->destroyGame();
+        $ticTacToeCurrentTurn = $ticTacToeService->getCurrentTurn();
+
         return response()->json(
             [
-                'currentTurn' => 'x',
+                'currentTurn' => $ticTacToeCurrentTurn,
             ]
         );
     }

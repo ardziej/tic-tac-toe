@@ -50,6 +50,17 @@ class TicTacToeService
         $this->score = $this->initScore();
     }
 
+    public function destroyGame(): void
+    {
+        $this->clearState('score');
+        $this->clearState('grid');
+    }
+
+    public function getCurrentTurn(): string
+    {
+        return $this->nextPlayer;
+    }
+
     public function piece(int $x, int $y): bool
     {
         if (isset($this->grid[$x][$y])) {
@@ -106,5 +117,10 @@ class TicTacToeService
     private function saveState(string $key, string|array $value): void
     {
         Cache::forever($key, $value);
+    }
+
+    private function clearState(string $key): void
+    {
+        Cache::forget($key);
     }
 }
