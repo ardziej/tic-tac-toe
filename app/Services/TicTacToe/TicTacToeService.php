@@ -61,6 +61,11 @@ class TicTacToeService
         return $this->nextPlayer;
     }
 
+    public function restartGame(): void
+    {
+        $this->clearState('grid');
+    }
+
     public function piece(int $x, int $y): bool
     {
         if (isset($this->grid[$x][$y])) {

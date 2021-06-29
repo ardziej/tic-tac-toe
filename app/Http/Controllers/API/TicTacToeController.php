@@ -35,10 +35,11 @@ class TicTacToeController extends BaseAPIController
 
     public function update(): JsonResponse
     {
-        $ticTacToeDTO = $this->ticTacToeDTO;
-        $ticTacToeDTO->init([], [], 'x', 'o');
+        $ticTacToeService = $this->ticTacToeService;
+        $ticTacToeService->restartGame();
+        $ticTacToeGameDTO = $ticTacToeService->getOrCreateGame();
 
-        return response()->json($ticTacToeDTO->toArray());
+        return response()->json($ticTacToeGameDTO->toArray());
     }
 
     public function destroy(): JsonResponse
