@@ -27,10 +27,19 @@ class TicTacToeController extends BaseAPIController
 
     public function store(TicTacToeStoreRequest $request): JsonResponse
     {
-        $ticTacToeDTO = $this->ticTacToeDTO;
-        $ticTacToeDTO->init([], [], 'x', 'o');
+        $ticTacToeService = $this->ticTacToeService;
+        $ticTacToeService->getOrCreateGame();
+        $ticTacToePieceResponseCode = $ticTacToeService->piece(
+            $request->input('piece'),
+            (int)$request->input('x'),
+            (int)$request->input('y')
+        );
 
-        return response()->json($ticTacToeDTO->toArray());
+        return match ($ticTacToePieceResponseCode) {
+            409 => response()->json(['message' => 'Piece is being placed where a piece already is.'], 409),
+            406 => response()->json(['message' => 'Piece is being placed out of turn.'], 406),
+            default => response()->json($ticTacToeService->getOrCreateGame()->toArray()),
+        };
     }
 
     public function update(): JsonResponse

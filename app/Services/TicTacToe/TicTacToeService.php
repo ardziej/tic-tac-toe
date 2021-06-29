@@ -66,18 +66,30 @@ class TicTacToeService
         $this->clearState('grid');
     }
 
-    public function piece(int $x, int $y): bool
+    public function piece(string $player, int $x, int $y): int
     {
-        if (isset($this->grid[$x][$y])) {
-            return false;
+        if ( ! empty($this->grid[$x][$y])) {
+            return 409;
         }
+
+        if ($player !== $this->nextPlayer) {
+            return 406;
+        }
+
         $this->grid[$x][$y] = $this->nextPlayer;
+        $this->setNextPlayer();
 
         $this->saveState('score', $this->score);
         $this->saveState('nextPlayer', $this->nextPlayer);
         $this->saveState('grid', $this->grid);
 
-        return true;
+        return 200;
+    }
+
+    private function setNextPlayer(): void
+    {
+        $this->nextPlayer = $this->nextPlayer === 'x' ? 'o' : 'x';
+        $this->saveState('nextPlayer', $this->nextPlayer);
     }
 
     private function saveGame(): void
