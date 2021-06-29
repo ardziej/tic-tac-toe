@@ -9,13 +9,13 @@ class TicTacToeDTO
     public array $grid;
     public array $score;
     public string $currentTurn;
-    public string $victory;
+    public ?string $victory;
 
     public function init(
         array $grid,
         array $score,
         string $currentTurn,
-        string $victory,
+        ?string $victory,
     ) {
         $this->victory     = $victory;
         $this->currentTurn = $currentTurn;
