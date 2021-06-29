@@ -14,7 +14,7 @@ class TicTacToeTest extends TestCase
             ->assertStatus(200)
             ->assertJson(
                 [
-                    'board'       => [
+                    'grid'        => [
                         [
                             "",
                             "",
@@ -32,11 +32,11 @@ class TicTacToeTest extends TestCase
                         ],
                     ],
                     'score'       => [
-                        'x' => 1,
-                        '0' => 1,
+                        'x' => 0,
+                        'o' => 0,
                     ],
-                    'currentTurn' => 'o',
-                    'victory'     => 'x',
+                    'currentTurn' => 'x',
+                    'victory'     => '',
                 ],
             );
     }
@@ -49,7 +49,7 @@ class TicTacToeTest extends TestCase
             ->assertStatus(200)
             ->assertJson(
                 [
-                    'board'       => [
+                    'grid'        => [
                         [
                             "",
                             "",
@@ -67,24 +67,24 @@ class TicTacToeTest extends TestCase
                         ],
                     ],
                     'score'       => [
-                        'x' => 1,
-                        '0' => 1,
+                        'x' => 0,
+                        'o' => 0,
                     ],
-                    'currentTurn' => 'o',
-                    'victory'     => 'x',
+                    'currentTurn' => 'x',
+                    'victory'     => '',
                 ],
             );
     }
 
     public function test_tic_tac_toe_store_api_request(): void
     {
-        $response = $this->postJson('/api/o', ['x' => 1, 'y' => 2]);
+        $response = $this->postJson('/api/x', ['x' => 1, 'y' => 2]);
 
         $response
             ->assertStatus(200)
             ->assertJson(
                 [
-                    'board'       => [
+                    'grid'        => [
                         [
                             "",
                             "",
@@ -93,7 +93,7 @@ class TicTacToeTest extends TestCase
                         [
                             "",
                             "",
-                            "",
+                            "x",
                         ],
                         [
                             "",
@@ -102,11 +102,11 @@ class TicTacToeTest extends TestCase
                         ],
                     ],
                     'score'       => [
-                        'x' => 1,
-                        '0' => 1,
+                        'x' => 0,
+                        'o' => 0,
                     ],
                     'currentTurn' => 'o',
-                    'victory'     => 'x',
+                    'victory'     => '',
                 ],
             );
     }
