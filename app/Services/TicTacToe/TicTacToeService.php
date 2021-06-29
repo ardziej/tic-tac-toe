@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Cache;
 
 class TicTacToeService
 {
-    private array $grid = [];
-    private array $score = [];
-    private string $nextPlayer = 'x';
+    private ?array $grid = [];
+    private ?array $score = [];
+    private ?string $nextPlayer = 'x';
 
     public function __construct(
         public TicTacToeDTO $ticTacToeDTO
@@ -23,8 +23,10 @@ class TicTacToeService
         $currentGame = $this->getState('grid');
 
         if ( ! $currentGame) {
-            $this->grid  = $this->initGrid();
-            $this->score = $this->initScore();
+            $this->startGame();
+            $this->saveGame();
+        } else {
+            $this->loadGame();
         }
 
         $ticTacToeDTO = $this->ticTacToeDTO;
@@ -44,7 +46,8 @@ class TicTacToeService
 
     public function startGame(): void
     {
-        $this->grid = $grid ?? $this->initGrid();
+        $this->grid  = $this->initGrid();
+        $this->score = $this->initScore();
     }
 
     public function piece(int $x, int $y): bool
@@ -59,6 +62,20 @@ class TicTacToeService
         $this->saveState('grid', $this->grid);
 
         return true;
+    }
+
+    private function saveGame(): void
+    {
+        $this->saveState('score', $this->score);
+        $this->saveState('nextPlayer', $this->nextPlayer);
+        $this->saveState('grid', $this->grid);
+    }
+
+    private function loadGame(): void
+    {
+        $this->grid       = $this->getState('grid');
+        $this->score      = $this->getState('score');
+        $this->nextPlayer = $this->getState('nextPlayer');
     }
 
     private function initGrid(): array

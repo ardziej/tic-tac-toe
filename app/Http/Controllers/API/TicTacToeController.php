@@ -6,21 +6,23 @@ namespace App\Http\Controllers\API;
 
 use App\DTO\TicTacToeDTO;
 use App\Http\Requests\API\TicTacToeStoreRequest;
+use App\Services\TicTacToe\TicTacToeService;
 use Illuminate\Http\JsonResponse;
 
 class TicTacToeController extends BaseAPIController
 {
     public function __construct(
         public TicTacToeDTO $ticTacToeDTO,
+        public TicTacToeService $ticTacToeService,
     ) {
     }
 
     public function index(): JsonResponse
     {
-        $ticTacToeDTO = $this->ticTacToeDTO;
-        $ticTacToeDTO->init([], [], 'x', 'o');
+        $ticTacToeService = $this->ticTacToeService;
+        $ticTacToeGame    = $ticTacToeService->getOrCreateGame();
 
-        return response()->json($ticTacToeDTO->toArray());
+        return response()->json($ticTacToeGame->toArray());
     }
 
     public function store(TicTacToeStoreRequest $request): JsonResponse
